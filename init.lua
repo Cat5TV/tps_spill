@@ -12,6 +12,27 @@ minetest.override_item("bucket:bucket_lava", {
 		end
 	end,
 })
+minetest.override_item("bucket:bucket_water", {
+	on_place = function(itemstack, placer, pointed_thing)
+		if not minetest.check_player_privs(placer:get_player_name(),
+				{trusted = true}) then
+			return itemstack
+		else
+			return nothing(itemstack, placer, pointed_thing)
+		end
+	end,
+})
+
+minetest.override_item("bucket:bucket_river_water", {
+	on_place = function(itemstack, placer, pointed_thing)
+		if not minetest.check_player_privs(placer:get_player_name(),
+				{trusted = true}) then
+			return itemstack
+		else
+			return nothing(itemstack, placer, pointed_thing)
+		end
+	end,
+})
 
 if minetest.get_modpath("technic") then
 	minetest.override_item("technic:lava_can", {
@@ -34,9 +55,39 @@ minetest.override_item("default:lava_source", {
 		end
 	end,
 })
+minetest.override_item("default:water_source", {
+	after_place_node = function(pos, placer, itemstack, pointed_thing)
+		if not minetest.check_player_privs(placer:get_player_name(),
+				{trusted = true}) then
+			minetest.remove_node(pos)
+		end
+	end,
+})
 
-
-
+minetest.override_item("default:river_water_source", {
+	after_place_node = function(pos, placer, itemstack, pointed_thing)
+		if not minetest.check_player_privs(placer:get_player_name(),
+				{trusted = true}) then
+			minetest.remove_node(pos)
+		end
+	end,
+})
+minetest.override_item("default:water_flowing", {
+	after_place_node = function(pos, placer, itemstack, pointed_thing)
+		if not minetest.check_player_privs(placer:get_player_name(),
+				{trusted = true}) then
+			minetest.remove_node(pos)
+		end
+	end,
+})
+minetest.override_item("default:river_water_flowing", {
+	after_place_node = function(pos, placer, itemstack, pointed_thing)
+		if not minetest.check_player_privs(placer:get_player_name(),
+				{trusted = true}) then
+			minetest.remove_node(pos)
+		end
+	end,
+})
 local function check_protection(pos, name, text)
 	if minetest.is_protected(pos, name) then
 		minetest.log("action", (name ~= "" and name or "A mod")
